@@ -123,6 +123,12 @@ export class AppComponent {
       });
     });
 
+    this.hubConnection.on('Answer', (Reponse: string) => {
+      this.zone.run(() => {
+        alert(Reponse);
+      });
+    });
+
     this.hubConnection
       .start()
       .then(() => {
