@@ -25,12 +25,7 @@ public class MathQuestionsHub : Hub
 
         _matchBackgroundService.AddUser(Context.UserIdentifier!);
 
-        Player player = _backgroundServiceContext.Player.Where(p => p.UserId == Context.UserIdentifier!).Single();
-
-        await Clients.Caller.SendAsync("PlayerInfo", new PlayerInfoDTO()
-        {
-            NbRightAnswers = player.NbRightAnswers,
-        });
+        await UpdateNbRightAnswers();
 
         await Clients.Caller.SendAsync("CurrentQuestion", _matchBackgroundService.CurrentQuestion);
     }
@@ -44,5 +39,14 @@ public class MathQuestionsHub : Hub
     public void SelectChoice(int answerIndex)
     {
         _matchBackgroundService.SelectChoice(Context.UserIdentifier!, answerIndex);
+    }
+
+    public async Task UpdateNbRightAnswers()
+    {
+        Player player = _backgroundServiceContext.Player.Where(p => p.UserId == Context.UserIdentifier!).Single();
+        await Clients.Caller.SendAsync("PlayerInfo", new PlayerInfoDTO()
+        {
+            NbRightAnswers = player.NbRightAnswers,
+        });
     }
 }

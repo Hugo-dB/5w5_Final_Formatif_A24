@@ -125,6 +125,7 @@ export class AppComponent {
 
     this.hubConnection.on('Answer', (Reponse: string) => {
       this.zone.run(() => {
+        this.updateNbRightAnswers();
         alert(Reponse);
       });
     });
@@ -135,5 +136,9 @@ export class AppComponent {
         console.log('Connected to Hub');
       })
       .catch((err) => console.log('Error while starting connection: ' + err));
+  }
+
+  updateNbRightAnswers() {
+    this.hubConnection!.invoke("UpdateNbRightAnswers");
   }
 }
