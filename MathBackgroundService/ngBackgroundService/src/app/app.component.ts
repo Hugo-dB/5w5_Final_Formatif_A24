@@ -99,6 +99,12 @@ export class AppComponent {
 
     if (!this.hubConnection) return;
 
+    this.hubConnection.on('Result', (data: string) => {
+      this.zone.run(() => {
+        alert(data);
+      });
+    });
+
     this.hubConnection.on('PlayerInfo', (data: PlayerInfoDTO) => {
       this.zone.run(() => {
         console.log(data);
